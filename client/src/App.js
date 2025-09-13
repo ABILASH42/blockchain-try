@@ -1,30 +1,52 @@
 import React from 'react';
-import Land from './artifacts/Land.json';
-import Login from "./login.component";
-import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+
+// Styles
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './assets/scss/black-dashboard-react.scss';
+import './assets/demo/demo.css';
+import './assets/css/nucleo-icons.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import './index.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { DrizzleProvider } from 'drizzle-react';
 
-import {
-    LoadingContainer,
-    AccountData,
-    ContractData,
-    ContractForm
-} from 'drizzle-react-components'
+// Components
+import ErrorBoundary from './components/common/ErrorBoundary';
+import ThemeContextWrapper from './components/ThemeWrapper/ThemeWrapper';
+import BackgroundColorWrapper from './components/BackgroundColorWrapper/BackgroundColorWrapper';
 
-const drizzleOptions = {
-    contracts: [Land]
-}
+// Pages
+import Login from './pages/Login';
+import RegisterBuyer from './pages/RegisterBuyer';
+import RegisterSeller from './pages/RegisterSeller';
+import Help from './pages/Help';
 
-var rows = [];
-for (var i = 1; i < 5; i++) {
-    rows.push(<ContractData contract="Land" method="getArea" methodArgs={[i, { from: "0xe0786c396EEf88a42782cfd63D2329cA14b62C4C"}]} />);
-}
+// Layouts
+import AdminLayout from './layouts/Admin/Admin';
+import LILayout from './layouts/Admin/LI';
+import SellerLayout from './layouts/Admin/Seller';
 
 function App() {
-    return (
-    <></>
-    );
+  return (
+    <ErrorBoundary>
+      <ThemeContextWrapper>
+        <BackgroundColorWrapper>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/register-buyer" element={<RegisterBuyer />} />
+              <Route path="/register-seller" element={<RegisterSeller />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/admin/*" element={<AdminLayout />} />
+              <Route path="/li/*" element={<LILayout />} />
+              <Route path="/seller/*" element={<SellerLayout />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Router>
+        </BackgroundColorWrapper>
+      </ThemeContextWrapper>
+    </ErrorBoundary>
+  );
 }
+
 export default App;

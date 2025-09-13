@@ -1,0 +1,51 @@
+{
+  "name": "land-registration-blockchain",
+  "version": "2.0.0",
+  "description": "A blockchain-based land registration system using Ethereum and React",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test",
+    "compile": "truffle compile",
+    "migrate": "truffle migrate",
+    "migrate:reset": "truffle migrate --reset",
+    "dev": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "install:client": "cd client && npm install",
+    "install:all": "npm install && npm run install:client",
+    "start": "npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vrii14/Land-Registration-with-Blockchain.git"
+  },
+  "keywords": [
+    "blockchain",
+    "ethereum",
+    "land-registration",
+    "smart-contracts",
+    "react",
+    "web3",
+    "ipfs",
+    "truffle"
+  ],
+  "authors": [
+    "Vrinda Ahuja",
+    "Mrunal Kotkar", 
+    "Divya Kharode"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vrii14/Land-Registration-with-Blockchain/issues"
+  },
+  "homepage": "https://github.com/vrii14/Land-Registration-with-Blockchain#readme",
+  "devDependencies": {
+    "truffle": "^5.11.5"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

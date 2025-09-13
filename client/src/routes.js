@@ -1,12 +1,12 @@
-import buyerProfile from "./views/buyerProfile";
 import Dashboard from "./views/Dashboard";
-import viewImage from "./views/viewImage";
+import BuyerProfile from "./views/buyerProfile";
+import ViewImage from "./views/viewImage";
 import OwnedLands from "./views/OwnedLands";
 import MakePayment from "./views/MakePayment";
-import updateBuyer from "./views/updateBuyer";
-import Help from "./Help";
+import UpdateBuyer from "./views/updateBuyer";
+import Help from "./pages/Help";
 
-var routes = [
+const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -16,23 +16,23 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/buyerProfile",
-    name: "Buyers Profile",
+    path: "/buyer-profile",
+    name: "Buyer Profile",
     rtlName: "الرموز",
     icon: "tim-icons icon-single-02",
-    component: buyerProfile,
+    component: BuyerProfile,
     layout: "/admin",
   },
   {
-    path: "/viewImage",
+    path: "/view-image",
     name: "Land Gallery",
     rtlName: "الرموز",
     icon: "tim-icons icon-image-02",
-    component: viewImage,
+    component: ViewImage,
     layout: "/admin",
   },
   {
-    path: "/OwnedLands",
+    path: "/owned-lands",
     name: "Owned Lands",
     rtlName: "الرموز",
     icon: "tim-icons icon-bank",
@@ -40,7 +40,7 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/MakePayment",
+    path: "/make-payment",
     name: "Make Payment",
     rtlName: "الرموز",
     icon: "tim-icons icon-money-coins",
@@ -48,20 +48,21 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/Help",
+    path: "/help",
     name: "Help",
     rtlName: "الرموز",
-    icon: "tim-icons icon-single-02",
+    icon: "tim-icons icon-support-17",
     component: Help,
     layout: "/admin",
   },
   {
-    path: "/updateBuyer",
+    path: "/update-buyer",
     name: "",
     rtlName: "الرموز",
     icon: "tim-icons",
-    component: updateBuyer,
+    component: UpdateBuyer,
     layout: "/admin",
   },
 ];
+
 export default routes;

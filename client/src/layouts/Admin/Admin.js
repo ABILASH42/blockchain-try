@@ -1,29 +1,31 @@
-
-import React from "react";
-import { Route, Switch, Redirect, useLocation } from "react-router-dom";
-// javascript plugin used to create scrollbars on windows
+import React, { useRef, useEffect, useState } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar";
 
-// core components
+// Core components
 import AdminNavbar from "../../components/Navbars/AdminNavbar";
 import Footer from "../../components/Footer/Footer";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import FixedPlugin from "../../components/FixedPlugin/FixedPlugin";
 import Dashboard from "../../views/Dashboard";
-import routes from "../../routes";
+import BuyerProfile from "../../views/buyerProfile";
+import ViewImage from "../../views/viewImage";
+import OwnedLands from "../../views/OwnedLands";
+import MakePayment from "../../views/MakePayment";
+import UpdateBuyer from "../../views/updateBuyer";
+import Help from "../../pages/Help";
 
+import routes from "../../routes";
 import logo from "../../assets/img/react-logo.png";
 import { BackgroundColorContext } from "../../contexts/BackgroundColorContext";
 
-var ps;
+let ps;
 
-function Admin(props) {
+function Admin() {
   const location = useLocation();
-  const mainPanelRef = React.useRef(null);
-  const [sidebarOpened, setsidebarOpened] = React.useState(
-    document.documentElement.className.indexOf("nav-open") !== -1
-  );
-  React.useEffect(() => {
+  const mainPanelRef = useRef(null);
+  const [sidebarOpened, setSidebarOpened] = useState(false);
+
+  useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       document.documentElement.className += " perfect-scrollbar-on";
       document.documentElement.classList.remove("perfect-scrollbar-off");
@@ -35,7 +37,7 @@ function Admin(props) {
         ps = new PerfectScrollbar(tables[i]);
       }
     }
-    // Specify how to clean up after this effect:
+    
     return function cleanup() {
       if (navigator.platform.indexOf("Win") > -1) {
         ps.destroy();
@@ -43,8 +45,9 @@ function Admin(props) {
         document.documentElement.classList.remove("perfect-scrollbar-on");
       }
     };
-  });
-  React.useEffect(() => {
+  }, []);
+
+  useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       let tables = document.querySelectorAll(".table-responsive");
       for (let i = 0; i < tables.length; i++) {
@@ -57,65 +60,53 @@ function Admin(props) {
       mainPanelRef.current.scrollTop = 0;
     }
   }, [location]);
-  // // this function opens and closes the sidebar on small devices
+
   const toggleSidebar = () => {
     document.documentElement.classList.toggle("nav-open");
-    setsidebarOpened(!sidebarOpened);
+    setSidebarOpened(!sidebarOpened);
   };
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      } else {
-        return null;
-      }
-    });
-  };
-  
+
   const getBrandText = (path) => {
     for (let i = 0; i < routes.length; i++) {
-      if (location.pathname.indexOf(routes[i].layout + routes[i].path) !== -1) {
+      if (path.includes(routes[i].path)) {
         return routes[i].name;
       }
     }
-    return "Brand";
+    return "Dashboard";
   };
 
   return (
     <BackgroundColorContext.Consumer>
-      {({ color, changeColor }) => (
-        <React.Fragment>
-          <div className="wrapper">
+      {({ color }) => (
+        <div className="wrapper">
           <Sidebar
-              routes={routes}
-              logo={{
-                outterLink: "#",
-                text: "Land Registration",
-                imgSrc: logo,
-              }}
-              toggleSidebar={toggleSidebar}
-            />
-            <div className="main-panel" ref={mainPanelRef} data={color}>
+            routes={routes}
+            logo={{
+              outterLink: "#",
+              text: "Land Registration",
+              imgSrc: logo,
+            }}
+            toggleSidebar={toggleSidebar}
+          />
+          <div className="main-panel" ref={mainPanelRef} data={color}>
             <AdminNavbar
-                brandText={getBrandText(location.pathname)}
-                toggleSidebar={toggleSidebar}
-                sidebarOpened={sidebarOpened}
-              />
-              <Switch>
-                {getRoutes(routes)}
-                {/* <Redirect from="*" to="/admin/dashboard" /> */}
-              </Switch>
-              <Footer fluid />
-            </div>
+              brandText={getBrandText(location.pathname)}
+              toggleSidebar={toggleSidebar}
+              sidebarOpened={sidebarOpened}
+            />
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/buyer-profile" element={<BuyerProfile />} />
+              <Route path="/view-image" element={<ViewImage />} />
+              <Route path="/owned-lands" element={<OwnedLands />} />
+              <Route path="/make-payment" element={<MakePayment />} />
+              <Route path="/update-buyer" element={<UpdateBuyer />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
+            </Routes>
+            <Footer fluid />
           </div>
-          {/* <FixedPlugin bgColor={color} handleBgClick={changeColor} /> */}
-        </React.Fragment>
+        </div>
       )}
     </BackgroundColorContext.Consumer>
   );
